@@ -9,10 +9,14 @@ ENV KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
 
 # Copia el script de entrada para iniciar Kafka y Zookeeper
 COPY start-kafka.sh /usr/bin/start-kafka.sh
+USER root
 RUN chmod +x /usr/bin/start-kafka.sh
 
 # Expone los puertos necesarios
 EXPOSE 2181 9092
+
+# Cambia a usuario no root si es necesario
+USER 1000
 
 # Comando para ejecutar cuando se inicie el contenedor
 CMD ["start-kafka.sh"]
