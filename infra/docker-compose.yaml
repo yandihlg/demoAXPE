@@ -83,5 +83,22 @@ services:
       # Necesario para Debezium con PostgreSQL
       ENABLE_DEBEZIUM_SCRIPTING: "true"
 
+  spring-app:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    container_name: spring-app
+    restart: always
+    depends_on:
+      kafka:
+        condition: service_started
+      postgres:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    environment:
+      # Pasa cualquier variable que necesites aquí o usa el application.properties directamente
+      SPRING_PROFILES_ACTIVE: default
+
 volumes:
   postgres_data:
